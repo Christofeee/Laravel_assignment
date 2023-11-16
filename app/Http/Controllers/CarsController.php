@@ -77,4 +77,50 @@ class CarsController extends Controller
         $car = Car::find($id)->delete();
         return redirect('/');
     }
+
+
+    //functions for api
+    public function get_cars(){
+        $cars = Car::get();
+        return response()->json([
+            'cars'   =>  $cars
+        ]);
+    }
+
+    public function create_car(Request $request)
+    {
+        $car = new Car;
+        $car->name= $request->name;
+        $car->description = $request->description;
+        $car->price = $request->price;
+        $car->save();
+        return response()->json([
+            'new_car_info'   =>  $car
+        ]);
+    }
+
+    public function update_car(Request $request)
+    {
+        $car = Car::find($request->id);
+        $car->update([
+            "name" => $request->name,
+            "description" => $request->description,
+            "price" => $request->price
+        ]);
+        $car = Car::find($request->id);
+        return response()->json([
+            "updated_car_info" => $car
+        ]);
+    }
+
+
+    public function delete_car(Request $request)
+    {
+        Car::find($request->id)->delete();
+        $cars = Car::get();
+        return response()->json([
+            "updated_car_info_list"=> $cars
+        ]);
+        
+    }
 }
