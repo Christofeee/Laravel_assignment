@@ -76,6 +76,19 @@ class CarsController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+        ]);
+        
+        if ($validator->fails()) {
+            return redirect(url('cars/'.$id.'/edit'))
+                ->with('error', 'Validation failed')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        
         $car = Car::find($id);
         $car->name= $request->name;
         $car->price= $request->price;

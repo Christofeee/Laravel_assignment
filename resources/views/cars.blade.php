@@ -26,7 +26,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
             <a class="navbar-brand" href="#">Chris' cars</a>
-            
+
             <form class="form-inline my-2 my-lg-0">
                 <div class="input-group">
                     <input class="form-control" type="search" placeholder="Search" aria-label="Search">
@@ -59,12 +59,12 @@
                         <td>
                             <div class="d-flex justify-between">
                                 <div>
-                                    <a href="{{ url('cars/'.$car->id.'/edit') }}">
+                                    <a href="{{ url('cars/' . $car->id . '/edit') }}">
                                         <button type="button" class="btn btn-outline-info">Edit</button>
                                     </a>
                                 </div>
                                 <div class="ms-3 mr-0">
-                                    <form action="{{ url('cars/'.$car->id) }}" method="POST">
+                                    <form action="{{ url('cars/' . $car->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-outline-danger">Delete</button>
@@ -77,40 +77,42 @@
             </tbody>
         </table>
 
-        @if(session('success'))
-            <div class="bg-info p-4 rounded-md mb-4">
-                {{ session('success') }}
-            </div>
-        @endif
-        @if(session('error'))
-            <div class="bg-danger p-4 rounded-md mb-4">
-                {{ session('error') }}
-            </div>
-        @endif
         <form class="container bg-light mt-5" action="cars" method="POST">
             @csrf
+            @if (session('success'))
+                <div class="bg-info text-white p-4 rounded-md mb-4">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="bg-danger text-white p-4 rounded-md mb-4">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="row">
                 <div class="col p-3">
-                    <label for="name">Enter name:</label>
-                    <input type="text" class="form-control" placeholder="Enter name..." name="name" value="{{ old('name') }}">
+                    <label for="name">Name <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="Enter name..." name="name"
+                        value="{{ old('name') }}">
                     @error('name')
-                      <p class="text-danger text-sm">{{ $message }}</p>
+                        <p class="text-danger text-sm">{{ $message }}</p>
                     @enderror
                 </div>
                 <div class="col p-3">
-                    <label for="price">Enter price:</label>
-                    <input type="text" class="form-control" placeholder="Enter price..." name="price" value="{{ old('price') }}">
+                    <label for="price">Price <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" placeholder="Enter price..." name="price"
+                        value="{{ old('price') }}">
                     @error('price')
-                      <p class="text-danger text-sm">{{ $message }}</p>
+                        <p class="text-danger text-sm">{{ $message }}</p>
                     @enderror
                 </div>
             </div>
             <div class="p-3">
-                <label for="description">Enter description:</label>
+                <label for="description">Description</label>
                 <textarea class="form-control" rows="5" id="description" placeholder="Enter description..." name="description">{{ old('description') }}</textarea>
             </div>
             <div class="text-end p-3">
-                <button type="submit" class="btn btn-info">Add</button> 
+                <button type="submit" class="btn btn-info">Add</button>
             </div>
         </form>
     </div>
