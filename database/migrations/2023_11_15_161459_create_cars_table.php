@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create($tableName, function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->string('price');
             $table->timestamps();
         });
@@ -25,22 +25,22 @@ return new class extends Migration
             [
                 'name' => 'Mercedes',
                 'description' => 'Fusce lectus magna...Fusce lectus magna...',
-                'price' => '$59999'
+                'price' => '59999'
             ],
             [
                 'name' => 'BMW',
                 'description' => 'Fusce lectus magna...Fusce lectus magna...Fusce lectus magna...Fusce lectus magna...',
-                'price' => '$33000'
+                'price' => '33000'
             ],
             [
                 'name' => 'Bentley',
                 'description' => 'Fusce lectus magna...Fusce lectus magna...Fusce lectus magna...',
-                'price' => '$29999'
+                'price' => '29999'
             ],
             [
                 'name' => 'Rolls-Royce',
                 'description' => 'Fusce lectus magna...Fusce lectus magna...',
-                'price' => '$10000'
+                'price' => '10000'
             ],
         ]);
     }

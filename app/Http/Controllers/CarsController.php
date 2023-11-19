@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\Car;
 
@@ -32,12 +34,25 @@ class CarsController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+        ]);
+        
+        if ($validator->fails()) {
+            return redirect('/')
+                ->with('error', 'Validation failed')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $new_car = new Car;
         $new_car->name= $request->name;
         $new_car->price= $request->price;
         $new_car->description= $request->description;
         $new_car->save();
-        return redirect('/'); //view ko pyan return pya
+        return redirect('/')->with('success', 'New item Created');
     }
     /**
      * Display the specified resource.
