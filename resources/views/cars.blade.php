@@ -76,6 +76,42 @@
                 @endforeach
             </tbody>
         </table>
+        <div class="d-flex justify-content-center mt-4">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    @if ($cars->onFirstPage())
+                        <li class="page-item disabled">
+                            <span class="page-link"> : </span>
+                        </li>
+                    @else
+                        <li class="page-item">
+                            <a class="page-link" href="{{ $cars->previousPageUrl() }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    @endif
+        
+                    @for ($i = 1; $i <= $cars->lastPage(); $i++)
+                        <li class="page-item {{ $i == $cars->currentPage() ? 'active' : '' }}">
+                            <a class="page-link" href="{{ $cars->url($i) }}">{{ $i }}</a>
+                        </li>
+                    @endfor
+        
+                    @if ($cars->hasMorePages())
+                        <li class="page-item">
+                            <a class="page-link" href="{{ $cars->nextPageUrl() }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    @else
+                        <li class="page-item disabled">
+                            <span class="page-link"> : </span>
+                        </li>
+                    @endif
+                </ul>
+            </nav>
+        </div>
+        
 
         <form class="container bg-light mt-5" action="cars" method="POST">
             @csrf
