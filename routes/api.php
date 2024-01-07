@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarsController;
 
 /*
@@ -20,7 +21,30 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get("/get_cars",[CarsController::class,'get_cars']);
-Route::post("/create_car",[CarsController::class,'create_car']);
-Route::post("/update_car",[CarsController::class,'update_car']);
-Route::post("/delete_car",[CarsController::class,'delete_car']);
+// Route::get("/get_cars",[CarsController::class,'get_cars']);
+// Route::post("/create_car",[CarsController::class,'create_car']);
+// Route::post("/update_car",[CarsController::class,'update_car']);
+// Route::post("/delete_car",[CarsController::class,'delete_car']);
+
+Route::group([
+
+    'middleware' => 'api',
+    'prefix' => 'auth'
+
+], function ($router) {
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/profile', [AuthController::class, 'profile']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/refresh', [AuthController::class, 'refresh']);
+    Route::post('/me', [AuthController::class, 'me']);
+    Route::get("/get_cars",[CarsController::class,'get_cars']);
+    Route::post("/create_car",[CarsController::class,'create_car']);
+    Route::post("/update_car",[CarsController::class,'update_car']);
+    Route::post("/delete_car",[CarsController::class,'delete_car']);
+});
+
+Route::group(['middleware' => 'jwt'], function () {
+    Route::get('/', [CarsController::class,'index']);
+    Route::resource(name:'cars', controller:CarsController::class);
+});
