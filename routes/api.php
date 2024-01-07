@@ -38,13 +38,20 @@ Route::group([
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::post('/me', [AuthController::class, 'me']);
+});
+
+Route::group([
+
+    'middleware' => ['api','auth:api'],
+    'prefix' => 'auth'
+
+], function ($router) {
     Route::get("/get_cars",[CarsController::class,'get_cars']);
     Route::post("/create_car",[CarsController::class,'create_car']);
     Route::post("/update_car",[CarsController::class,'update_car']);
     Route::post("/delete_car",[CarsController::class,'delete_car']);
 });
-
-Route::group(['middleware' => 'jwt'], function () {
-    Route::get('/', [CarsController::class,'index']);
-    Route::resource(name:'cars', controller:CarsController::class);
-});
+// Route::group(['middleware' => 'jwt'], function () {
+//     Route::get('/', [CarsController::class,'index']);
+//     Route::resource(name:'cars', controller:CarsController::class);
+// });
