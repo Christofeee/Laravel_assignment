@@ -51,7 +51,7 @@ Route::group([
     Route::post("/update_car",[CarsController::class,'update_car']);
     Route::post("/delete_car",[CarsController::class,'delete_car']);
 });
-// Route::group(['middleware' => 'jwt'], function () {
-//     Route::get('/', [CarsController::class,'index']);
-//     Route::resource(name:'cars', controller:CarsController::class);
-// });
+Route::group(['middleware' => 'jwt'], function () {
+    Route::get('/', [CarsController::class,'index']);
+    Route::resource(name:'cars', controller:CarsController::class);
+});
